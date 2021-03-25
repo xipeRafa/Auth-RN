@@ -24,6 +24,7 @@ export default class Signup extends Component {
   }
 
   registerUser = () => {
+
     if(this.state.email === '' && this.state.password === '') {
       Alert.alert('Enter details to signup!')
     } else {
@@ -46,9 +47,16 @@ export default class Signup extends Component {
         })
         this.props.navigation.navigate('Login')
       })
-      .catch(error => this.setState({ errorMessage: error.message }))      
-    }
+      .catch(function(error) {
+    let errorCode = error.code;
+    if (errorCode == 'auth/email-already-in-use') {
+          alert('The password is already in use.');
+          window.location.reload(); 
+          document.location.reload();
+        } 
+    });
   }
+}
 
   render() {
     if(this.state.isLoading){
@@ -131,3 +139,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff'
   }
 });
+
+
+
